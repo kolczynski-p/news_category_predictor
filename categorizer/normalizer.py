@@ -4,6 +4,11 @@ import pandas as pd
 import json
 import nltk
 from nltk.corpus import stopwords
+import textblob         
+from textblob import TextBlob
+from textblob import Word
+
+        
 
 
 class Normalizer():
@@ -12,7 +17,9 @@ class Normalizer():
         self.src = src
         self.data = dataframe
         nltk.download('stopwords')
+        nltk.download('wordnet')
         self.stop = stopwords.words(lang)
+        
 
 
     def load_file_json(self):
@@ -24,7 +31,6 @@ class Normalizer():
 
     def describe(self):
         print(self.data.info())
-        print(self.data.head(100))
 
 
     def concat_cols(self, target, cols):
@@ -45,3 +51,25 @@ class Normalizer():
         for c in cols:
             self.data[c] = self.data[c].map(lambda x: x if type(x)!=str else x.lower())
 
+    def drop_num(self, cols):
+        for c in cols:
+            self.data[c] = self.data[c].apply(lambda x: " ".join(x for x in x.split() if not x.isdigit() ))
+
+    def drop_spec(self, cols):
+        for c in cols:
+            self.data[c] = self.data[c].str.replace('[^\w\s]','')
+
+    def drop_rarest(self, amount):
+            freq = pd.Series(' '.join(self.data['text']).split()).value_counts()[(amount*-1):]
+            freq = list(freq.index)
+            self.data['text'] = self.data['text'].apply(lambda x: " ".join(x for x in x.split() if x not in freq))
+    
+    def lemmatize(self):
+        
+        self.data['text'] = self.data['text'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
+    
+    def n_grams(self,i,n):
+        return TextBlob(self.data['text'][i]).ngrams(n)
+    
+    def data_detals(self):
+        return 0
