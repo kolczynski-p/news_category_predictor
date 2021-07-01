@@ -21,13 +21,13 @@ class Analyzer():
         nltk.download('wordnet')
         self.stop = stopwords.words(lang)
 
-    def word_count(self):
-        self.data['word_count'] = self.data['text'].apply(lambda x: len(str(x).split(" ")))
+    def word_count(self, count, limit):
+        self.data['word_count'] = self.data[count].apply(lambda x: len(str(x).split(" ")))
         patches = plt.hist(self.data['word_count'], 150, density=1, facecolor='g', alpha=0.75)
         plt.xlabel('Word count')
         plt.ylabel('probability densit')
         plt.title('Histogram of word amount')
-        plt.xlim(0, 50)
+        plt.xlim(0, limit)
         plt.grid(True)
         plt.show()
         
