@@ -30,5 +30,28 @@ class Analyzer():
         plt.xlim(0, limit)
         plt.grid(True)
         plt.show()
+
+    def word_avg(self):
+        words = {'Category':self.data['category'].unique(), 'Word_count':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        unique_category = pd.DataFrame(words)
+        unique_category.index = self.data['category'].unique()
+
+        index = 0
+        for a in self.data['category']:
+            if a == self.data['category'][index]:
+                unique_category['Word_count'][a] = unique_category['Word_count'][a] + self.data['word_count'][index]
+                unique_category['Amount_of_cat'][a] = unique_category['Amount_of_cat'][a]+1
+            index = index+1
+
+        for a in unique_category['Category']:
+            unique_category['Word_count'][a] = unique_category['Word_count'][a]/unique_category['Amount_of_cat'][a]   
+
+        x=unique_category['Category']
+        y=unique_category['Word_count']
+
+        fig, ax = plt.subplots(figsize=(25,10))
+        plt.xticks(rotation=90)
+        plt.xlabel('Average word')
+        ax.plot(x, y)
         
 
