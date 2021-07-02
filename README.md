@@ -8,4 +8,4 @@ authors:
 
     Przemysław Kolczyński
     Patryk Pomierski
-    Kuba Blaźlik
+    Jakub Blaźlik
