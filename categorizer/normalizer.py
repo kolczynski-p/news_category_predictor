@@ -13,9 +13,10 @@ from textblob import Word
 
 class Normalizer():
 
-    def __init__(self, src, dataframe=pd.DataFrame(), lang='english'):
+    def __init__(self, src, sampleSize, dataframe=pd.DataFrame(), lang='english'):
         self.src = src
         self.data = dataframe
+        self.sampleSize=sampleSize
         nltk.download('stopwords')
         nltk.download('wordnet')
         self.stop = stopwords.words(lang)
@@ -27,6 +28,7 @@ class Normalizer():
             data = f.readlines()
             data = [json.loads(line) for line in data]
         self.data = pd.DataFrame(data)
+        self.data = self.data.sample(n=self.sampleSize, random_state=1)
 
 
     def describe(self):
@@ -60,9 +62,12 @@ class Normalizer():
             self.data[c] = self.data[c].str.replace('[^\w\s]','')
 
     def drop_rarest(self, amount):
-            freq = pd.Series(' '.join(self.data['text']).split()).value_counts()[(amount*-1):]
+            freq = pd.Series(' '.join(self.data['text']).split()).value_counts()
+            freq = freq.where(freq>=amount)
+            freq = freq.dropna()
             freq = list(freq.index)
-            self.data['text'] = self.data['text'].apply(lambda x: " ".join(x for x in x.split() if x not in freq))
+            
+            self.data['text'] = self.data['text'].apply(lambda x: " ".join(x for x in x.split() if x in freq))
     
     def lemmatize(self):
         
@@ -72,4 +77,9 @@ class Normalizer():
         return TextBlob(self.data['text'][i]).ngrams(n)
     
     def data_detals(self):
-        return 0
+       return 0
+
+
+
+
+    
