@@ -33,6 +33,9 @@ class Normalizer():
     def concat_cols(self, target, cols):
         self.data[str(target)] = self.data[cols[0]] + ' ' + self.data[cols[1]]
 
+    def save_col(self, target, col):
+        self.data[str(target)] = self.data[col]
+
     def drop_cols(self, cols):
         self.data = self.data.drop(columns=cols)
 

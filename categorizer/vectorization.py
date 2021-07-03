@@ -9,6 +9,8 @@ from nltk.corpus import stopwords
 import textblob         
 from textblob import TextBlob
 from textblob import Word
+from nltk.tokenize import TweetTokenizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
         
 
@@ -20,5 +22,5 @@ class Vectorizer():
         nltk.download
 
 
-    def test():
+    def TfidVectorizer():
         print("test")
