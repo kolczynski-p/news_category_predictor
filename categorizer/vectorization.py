@@ -20,5 +20,5 @@ class Vectorizer():
         nltk.download
 
 
-    def tol():
-        print("lbie placko")
+    def test():
+        print("test")
