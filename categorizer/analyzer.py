@@ -32,7 +32,8 @@ class Analyzer():
         plt.show()
 
     def word_avg(self):
-        words = {'Category':self.data['category'].unique(), 'Word_count':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        category_list_count = [0]*len(set(self.data['category']))
+        words = {'Category':self.data['category'].unique(), 'Word_count':category_list_count, 'Amount_of_cat':category_list_count}
         unique_category = pd.DataFrame(words)
         unique_category.index = self.data['category'].unique()
 
@@ -55,7 +56,8 @@ class Analyzer():
         ax.plot(x, y)
         
     def word_unique(self):
-        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'Unique_words':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        category_list_count = [0]*len(set(self.data['category']))
+        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':category_list_count, 'Unique_words':category_list_count}
         unique_category = pd.DataFrame(words)
         unique_category.index = self.data['category'].unique()
 
@@ -80,7 +82,8 @@ class Analyzer():
         
 
     def amount_of_cat(self):
-        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        category_list_count = [0]*len(set(self.data['category']))
+        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':category_list_count}
         unique_category = pd.DataFrame(words)
         unique_category.index = self.data['category'].unique()
 
@@ -95,5 +98,5 @@ class Analyzer():
 
         fig, ax = plt.subplots(figsize=(25,10))
         plt.xticks(rotation=90)
-        plt.title('Amount of category')
+        plt.title('Amount of posts per category')
         ax.plot(x, y)
