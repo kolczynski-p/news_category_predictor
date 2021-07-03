@@ -51,7 +51,49 @@ class Analyzer():
 
         fig, ax = plt.subplots(figsize=(25,10))
         plt.xticks(rotation=90)
-        plt.xlabel('Average word')
+        plt.title('Average word')
+        ax.plot(x, y)
+        
+    def word_unique(self):
+        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'Unique_words':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        unique_category = pd.DataFrame(words)
+        unique_category.index = self.data['category'].unique()
+
+        index = 0
+        for a in self.data['category']:
+            unique_text_words = set(self.data['text'][3].split())
+            if a == self.data['category'][index]:
+                unique_category['Unique_words'][a] = unique_category['Unique_words'][a] + len(unique_text_words)
+                unique_category['Amount_of_cat'][a] = unique_category['Amount_of_cat'][a]+1
+            index = index+1
+
+        for a in unique_category['Category']:
+            unique_category['Unique_words'][a] = unique_category['Unique_words'][a]/unique_category['Amount_of_cat'][a]  
+
+        x=unique_category['Category']
+        y=unique_category['Unique_words']
+
+        fig, ax = plt.subplots(figsize=(25,10))
+        plt.xticks(rotation=90)
+        plt.title('Average unique word')
         ax.plot(x, y)
         
 
+    def amount_of_cat(self):
+        words = {'Category':self.data['category'].unique(), 'Amount_of_cat':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+        unique_category = pd.DataFrame(words)
+        unique_category.index = self.data['category'].unique()
+
+        index = 0
+        for a in self.data['category']:
+            if a == self.data['category'][index]:
+                unique_category['Amount_of_cat'][a] = unique_category['Amount_of_cat'][a]+1
+            index = index+1
+
+        x=unique_category['Category']
+        y=unique_category['Amount_of_cat']
+
+        fig, ax = plt.subplots(figsize=(25,10))
+        plt.xticks(rotation=90)
+        plt.title('Amount of category')
+        ax.plot(x, y)
